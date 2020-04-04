@@ -1,0 +1,15 @@
+.flex-row {
+  margin-bottom: 15px;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
+.truncate-to-fit {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
