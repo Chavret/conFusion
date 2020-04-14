@@ -14,7 +14,7 @@
             <h3 *ngIf="dish">{{dish.name | uppercase}}</h3>
           </mat-card-title>
         </mat-card-header>
-        <img mat-card-image src={{dish.image}} alt={{dish.name}}>
+        <img mat-card-image src={{ BaseURL + dish.image}} alt={{dish.name}}>
         <mat-card-content>
           <p>{{dish.description}}</p>
         </mat-card-content>
@@ -45,7 +45,7 @@
       <mat-list>
         <mat-list-item *ngIf="commentForm.status == 'VALID' && commentForm.touched && commentForm.dirty">
           <p matLine>{{commentForm.value.comment}}</p>
-          <p matLine>{{matslider.value}} Stars</p>
+          <p matLine>{{commentForm.value.rating}}</p>
           <p matLine>-- {{commentForm.value.author}}</p>
         </mat-list-item>
       </mat-list>
@@ -62,8 +62,7 @@
         </mat-form-field>
       </p>
       <p>
-        <input formControlName="rating" placeholder="Rating" type="hidden" required>
-        <mat-slider min=1 max=5 step=1 value=5 thumbLabel tickInterval=1 #matslider></mat-slider>
+        <mat-slider formControlName="rating" min=1 max=5 step=1 value=5 thumbLabel tickInterval=1></mat-slider>
         <mat-error *ngIf="formErrors.rating">{{formErrors.rating}}</mat-error>
       </p>
       <p>
