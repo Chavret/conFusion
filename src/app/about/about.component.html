@@ -55,7 +55,7 @@
 
 
   <div fxFlex>
-    <div *ngIf="leaders">
+    <div *ngIf="leaders" [@expand]>
       <h2>Corporate Leadership</h2>
       <mat-list class="flex-row" *ngFor="let leader of leaders">
         <div fxFlex="8" fxLayoutAlign="center" gdAlignColumns="center">
