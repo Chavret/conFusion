@@ -5,7 +5,7 @@ import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { visibility, expand } from '../animations/app.animation';
+import { visibility, expand, flyInOut } from '../animations/app.animation';
 
 @Component({
   selector: 'app-dishdetail',
@@ -18,6 +18,7 @@ import { visibility, expand } from '../animations/app.animation';
   },
   animations: [
     visibility(),
+    flyInOut(),
     expand()
   ]
 })
@@ -57,7 +58,7 @@ export class DishdetailComponent implements OnInit {
               private route: ActivatedRoute,
               private location: Location,
               private fb: FormBuilder,
-              @Inject('baseURL') private baseURL) {
+              @Inject('BaseURL') private baseURL) {
     this.createForm();
   }
 
@@ -118,7 +119,7 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
     this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
-    this.route.params.pipe(switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.getDish(+params['id']); }))
+    this.route.params.pipe(switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishservice.getDish(params['id']); }))
       .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); this.visibility = 'shown'; },
         errmess => this.errMess = <any>errmess);
   }

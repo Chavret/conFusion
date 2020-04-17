@@ -36,9 +36,19 @@
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+  <div fxFlex *ngIf="submittedFeedback != null">
+    <h3>Your Submission</h3>
+    <p>First Name: {{submittedFeedback.firstname}}</p>
+    <p>Last Name: {{submittedFeedback.lastname}}</p>
+    <p>Tel: {{submittedFeedback.telnum}}</p>
+    <p>Email: {{submittedFeedback.email}}</p>
+    <p>Contact You?: {{submittedFeedback.agree}}</p>
+    <p>How?: {{submittedFeedback.contacttype}}</p>
+    <p>Feedback: {{submittedFeedback.message}}</p>
+  </div>
+
+  <div fxFlex *ngIf="submittedFeedback == null && !isSubmitted" fxFlexOffset="20px" class="form-size">
     <h3>Send us your Feedback</h3>
-    <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
       <p>
@@ -61,7 +71,31 @@
           <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
         </mat-form-field>
       </p>
-      <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+      <table class="form-size">
+        <td>
+          <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>
+        </td>
+        <td>
+          <mat-select placeholder="How?" formControlName="contacttype">
+            <mat-option *ngFor="let ctype of contactType" [value]="ctype">
+              {{ ctype }}
+            </mat-option>
+          </mat-select>
+        </td>
+      </table>
+      <p>
+        <mat-form-field class="full-width">
+          <textarea matInput formControlName="message" placeholder="Your Feedback" rows=12></textarea>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
     </form>
+  </div>
+  <div fxFlex [hidden]="(feedback == null || errMess == null) && !isSubmitted">
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+  <div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -20,7 +21,10 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  submittedFeedback: Feedback;
   contactType = ContactType;
+  errMess: string;
+  isSubmitted = false;
   @ViewChild('fform') feedbackFormDirective;
 
   formErrors = {
@@ -51,7 +55,8 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private feedbackservice: FeedbackService) {
     this.createForm();
   }
 
@@ -76,18 +81,49 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isSubmitted = true;
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
-    this.feedbackFormDirective.resetForm();
+    console.log('isSubmitted is:')
+    console.log(this.isSubmitted);
+    console.log('this.feedback == null || this.errMess == null) && !this.isSubmitted is:');
+    console.log((this.feedback == null || this.errMess == null) && !this.isSubmitted);
+
+    this.feedbackservice.submitFeedback(this.feedback)
+      .subscribe(feedback => {
+          this.feedback = feedback;
+        },
+        errmess => { this.feedback = null; this.errMess = <any>errmess; });
+
+    console.log('this.feedback != null is:');
+    console.log(this.feedback != null);
+
+    if (this.feedback != null) {
+      this.submittedFeedback = this.feedback;
+      this.isSubmitted = false;
+      setTimeout(() => {
+        this.submittedFeedback = null;
+        this.feedbackForm.reset({
+          firstname: '',
+          lastname: '',
+          telnum: '',
+          email: '',
+          agree: false,
+          contacttype: 'None',
+          message: ''
+        });
+      }, 5000);
+    } else {
+      this.isSubmitted = false;
+      this.feedbackForm.reset({
+        firstname: '',
+        lastname: '',
+        telnum: '',
+        email: '',
+        agree: false,
+        contacttype: 'None',
+        message: ''
+      });
+    }
   }
 
   onValueChanged(data?: any) {

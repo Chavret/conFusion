@@ -59,7 +59,7 @@
       <h2>Corporate Leadership</h2>
       <mat-list class="flex-row" *ngFor="let leader of leaders">
         <div fxFlex="8" fxLayoutAlign="center" gdAlignColumns="center">
-          <img class="avatar" src="{{leader.image}}" alt="{{leader.name}}">
+          <img class="avatar" src="{{ baseURL + leader.image}}" alt="{{leader.name}}">
         </div>
         <div fxFlex class="truncate-to-fit">
           <div matLine>{{leader.name}} {{leader.abbr}}</div>

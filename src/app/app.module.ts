@@ -14,6 +14,7 @@ import { DishdetailComponent } from './dishdetail/dishdetail.component';
 import { DishService } from './services/dish.service';
 import { LeaderService } from './services/leader.service';
 import { PromotionService } from './services/promotion.service';
+import { FeedbackService } from './services/feedback.service';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -33,7 +34,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
 import { baseURL } from './shared/baseurl';
 import { HighlightDirective } from './directives/highlight.directive';
 
@@ -71,13 +71,13 @@ import { HighlightDirective } from './directives/highlight.directive';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     DishService,
     PromotionService,
     LeaderService,
+    FeedbackService,
     ProcessHTTPMsgService,
     {provide: 'BaseURL', useValue: baseURL}
   ],
