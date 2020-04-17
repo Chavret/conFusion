@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
 import { FeedbackService } from '../services/feedback.service';
 
 @Component({
@@ -14,7 +14,8 @@ import { FeedbackService } from '../services/feedback.service';
     'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
@@ -83,19 +84,12 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.isSubmitted = true;
     this.feedback = this.feedbackForm.value;
-    console.log('isSubmitted is:')
-    console.log(this.isSubmitted);
-    console.log('this.feedback == null || this.errMess == null) && !this.isSubmitted is:');
-    console.log((this.feedback == null || this.errMess == null) && !this.isSubmitted);
 
     this.feedbackservice.submitFeedback(this.feedback)
       .subscribe(feedback => {
           this.feedback = feedback;
         },
         errmess => { this.feedback = null; this.errMess = <any>errmess; });
-
-    console.log('this.feedback != null is:');
-    console.log(this.feedback != null);
 
     if (this.feedback != null) {
       this.submittedFeedback = this.feedback;

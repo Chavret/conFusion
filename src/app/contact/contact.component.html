@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div fxFlex *ngIf="submittedFeedback != null">
+  <div fxFlex *ngIf="submittedFeedback != null" [@expand]>
     <h3>Your Submission</h3>
     <p>First Name: {{submittedFeedback.firstname}}</p>
     <p>Last Name: {{submittedFeedback.lastname}}</p>
@@ -47,7 +47,7 @@
     <p>Feedback: {{submittedFeedback.message}}</p>
   </div>
 
-  <div fxFlex *ngIf="submittedFeedback == null && !isSubmitted" fxFlexOffset="20px" class="form-size">
+  <div fxFlex *ngIf="submittedFeedback == null && !isSubmitted" fxFlexOffset="20px" class="form-size" [@expand]>
     <h3>Send us your Feedback</h3>
 
     <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
@@ -91,7 +91,11 @@
       <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="feedbackForm.invalid">Submit</button>
     </form>
   </div>
-  <div fxFlex [hidden]="(feedback == null || errMess == null) && !isSubmitted">
+  <div fxFlex [hidden]="!isSubmitted">
+    <h3>Submitting Form</h3>
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+  <div fxFlex [hidden]="feedback == null || errMess == null">
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
   <div fxFlex *ngIf="errMess">
